@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:medical/Screens/Widgets/TabbarPages/tab1.dart';
-import 'package:medical/Screens/Widgets/TabbarPages/tab2.dart';
+import 'package:medical/Screens/profile/email_tab.dart';
 import 'package:medical/Screens/Login-Signup/login.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -123,9 +122,7 @@ class _TabBarExampleState extends State<forgot_pass>
                                   Tab(
                                     text: "Email",
                                   ),
-                                  Tab(
-                                    text: "Phone",
-                                  ),
+
                                 ],
                               ),
                             ),
@@ -137,9 +134,7 @@ class _TabBarExampleState extends State<forgot_pass>
                       height: 20,
                     ),
                     Expanded(
-                        child: TabBarView(
-                            controller: tabController,
-                            children: [tab1(), tab2()]))
+                        child: tab1())
                   ],
                 ),
               ),

@@ -7,10 +7,11 @@ class doctorList extends StatelessWidget {
   final String maintext;
   final String subtext;
   final String numRating;
-  final String distance;
+  // final String distance;
 
   doctorList(
-      {required this.distance,
+      {
+        // required this.distance,
       required this.image,
       required this.maintext,
       required this.numRating,
@@ -104,27 +105,27 @@ class doctorList extends StatelessWidget {
                       height: 5,
                     ),
                     Row(children: [
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.01500,
-                        width: MediaQuery.of(context).size.width * 0.03,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(
-                                "lib/icons/Location.png",
-                              ),
-                              filterQuality: FilterQuality.high),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 4,
-                      ),
-                      Text(
-                        distance,
-                        style: GoogleFonts.poppins(
-                            fontSize: 11.sp,
-                            color: Color.fromARGB(255, 133, 133, 133),
-                            fontWeight: FontWeight.bold),
-                      ),
+                      // Container(
+                      //   height: MediaQuery.of(context).size.height * 0.01500,
+                      //   width: MediaQuery.of(context).size.width * 0.03,
+                      //   decoration: const BoxDecoration(
+                      //     image: DecorationImage(
+                      //         image: AssetImage(
+                      //           "lib/icons/Location.png",
+                      //         ),
+                      //         filterQuality: FilterQuality.high),
+                      //   ),
+                      // ),
+                      // const SizedBox(
+                      //   width: 4,
+                      // ),
+                      // Text(
+                      //   distance,
+                      //   style: GoogleFonts.poppins(
+                      //       fontSize: 11.sp,
+                      //       color: Color.fromARGB(255, 133, 133, 133),
+                      //       fontWeight: FontWeight.bold),
+                      // ),
                     ]),
                   ],
                 ),

@@ -38,7 +38,7 @@ class banner extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * 0.026,
                 width: MediaQuery.of(context).size.width * 0.2,
                 decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 4, 138, 109),
+                  color: Color.fromRGBO(121, 171, 243, 1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child:

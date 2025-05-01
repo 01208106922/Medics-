@@ -4,6 +4,7 @@ import 'package:medical/Screens/Login-Signup/login_signup.dart';
 import 'package:medical/Screens/On_Board/on_board1.dart';
 import 'package:medical/Screens/On_Board/on_board2.dart';
 import 'package:medical/Screens/On_Board/on_board3.dart';
+import 'package:medical/Screens/On_Board/on_board4.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -29,12 +30,13 @@ class _on_boardingState extends State<on_boarding> {
             controller: _controller,
             onPageChanged: (index) {
               setState(() {
-                onLastpage = (index == 2);
+                onLastpage = (index == 3);
               });
             },
             children: [
               on_board1(),
               on_board2(),
+              on_board4(),
               on_board3(),
             ]),
         Container(
@@ -44,7 +46,7 @@ class _on_boardingState extends State<on_boarding> {
             children: [
               GestureDetector(
                   onTap: () {
-                    _controller.jumpToPage(2);
+                    _controller.jumpToPage(3);
                   },
                   child: Text(
                     "Skip",

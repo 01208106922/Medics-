@@ -7,10 +7,11 @@ class list_doctor1 extends StatelessWidget {
   final String maintext;
   final String subtext;
   final String numRating;
-  final String distance;
+  // final String distance;
 
   list_doctor1(
-      {required this.distance,
+      {
+        // required this.distance,
       required this.image,
       required this.maintext,
       required this.numRating,
@@ -101,28 +102,7 @@ class list_doctor1 extends StatelessWidget {
                           ),
                         ]),
                       ),
-                      //Sizebox betwen ratting + distance
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.01500,
-                        width: MediaQuery.of(context).size.width * 0.03,
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage(
-                                "lib/icons/Location.png",
-                              ),
-                              filterQuality: FilterQuality.high),
-                        ),
-                      ),
-                      Text(
-                        distance,
-                        style: GoogleFonts.poppins(
-                            fontSize: 11.sp,
-                            color: Color.fromARGB(255, 133, 133, 133),
-                            fontWeight: FontWeight.bold),
-                      ),
+
                     ],
                   ),
                 ],

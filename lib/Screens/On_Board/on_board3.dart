@@ -14,13 +14,13 @@ class on_board3 extends StatelessWidget {
           height: 40,
         ),
         Container(
-          height: MediaQuery.of(context).size.height * 0.6,
-          width: MediaQuery.of(context).size.width * 0.8,
+          height: MediaQuery.of(context).size.height * 0.4,
+          width: MediaQuery.of(context).size.width * 0.6,
           decoration: BoxDecoration(
               image: DecorationImage(
                   alignment: Alignment.bottomCenter,
                   image: AssetImage(
-                    "images/doctor3.png",
+                    "images/payment.jpg",
                   ),
                   filterQuality: FilterQuality.high)),
         ),
@@ -30,7 +30,7 @@ class on_board3 extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.2,
+                height: MediaQuery.of(context).size.height * 0.3,
                 width: MediaQuery.of(context).size.width * 0.8,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
@@ -44,14 +44,29 @@ class on_board3 extends StatelessWidget {
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(25),
-                  child: Text(
-                    "Get connect our Online\nConsultation",
-                    style: GoogleFonts.inter(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.bold,
-                        color: Color.fromARGB(255, 37, 37, 37)),
+                  padding: const EdgeInsets.all(15),
+                  child: Column(
+                    children: [
+                      Text(
+                        "Easy & multi soultions payment",
+                        style: GoogleFonts.inter(
+                            fontSize: 19.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromARGB(255, 14, 11, 11)),
+                      ),
+                       SizedBox(height: 10,),
+                      Center(
+                        child: Text(
+                          "You can pay on cash or online using your common methods",
+                          style: GoogleFonts.inter(
+                              fontSize: 15.sp,
+                              fontWeight: FontWeight.bold,
+                              color: const Color.fromARGB(255, 102, 100, 100)),
+                        ),
+                      ),
+                    ],
                   ),
+
                 ),
               )
             ],

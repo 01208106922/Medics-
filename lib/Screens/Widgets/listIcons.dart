@@ -31,7 +31,8 @@ class listIcons extends StatelessWidget {
                     ],
                     image: DecorationImage(
                       image: AssetImage(Icon),
-                    )),
+                    )
+                ),
               ),
               const SizedBox(
                 height: 15,

@@ -20,7 +20,7 @@ class login_signup extends StatelessWidget {
           width: MediaQuery.of(context).size.height * 01,
           decoration: const BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage("images/logo-green.png"),
+                  image: AssetImage("images/logo_removedBg.png"),
                   filterQuality: FilterQuality.high)),
         ),
         Row(
@@ -69,7 +69,7 @@ class login_signup extends StatelessWidget {
                       type: PageTransitionType.rightToLeft, child: login()));
             },
             style: ElevatedButton.styleFrom(
-              primary: Color.fromARGB(255, 3, 190, 150),
+              backgroundColor: Color.fromRGBO(121, 171, 243, 1),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
               ),
@@ -103,7 +103,7 @@ class login_signup extends StatelessWidget {
                       type: PageTransitionType.rightToLeft, child: register()));
             },
             style: ElevatedButton.styleFrom(
-              primary: Color.fromARGB(255, 255, 255, 255),
+              backgroundColor: Color.fromRGBO(121, 171, 243, 1),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30),
               ),
@@ -113,7 +113,7 @@ class login_signup extends StatelessWidget {
               textAlign: TextAlign.center,
               style: GoogleFonts.poppins(
                 fontSize: 18.sp,
-                color: Color.fromARGB(255, 3, 190, 150),
+                color: Color.fromARGB(255, 255, 255, 255),
                 fontWeight: FontWeight.w500,
                 letterSpacing: 0,
               ),

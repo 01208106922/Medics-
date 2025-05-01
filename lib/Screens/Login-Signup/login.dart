@@ -1,16 +1,22 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:medical/Screens/Login-Signup/forgot_pass.dart';
 import 'package:medical/Screens/Login-Signup/login_signup.dart';
 import 'package:medical/Screens/Login-Signup/register.dart';
-import 'package:medical/Screens/Views/Homepage.dart';
-import 'package:medical/Screens/Widgets/Auth_text_field.dart';
-import 'package:medical/Screens/Widgets/auth_social_login.dart';
+import 'package:medical/Screens/homepage/Homepage.dart';
+import 'package:medical/Screens/Login-Signup/auth_social_login.dart';
+import 'package:medical/firebase/firebase_manager.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+
 class login extends StatelessWidget {
-  const login({super.key});
+   login({super.key});
+  TextEditingController emailController = TextEditingController();
+
+  TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,13 +56,67 @@ class login extends StatelessWidget {
             height: 40,
           ),
           //Text field Login import from Auth_text_field widget
-          Auth_text_field(text: "Enter you email", icon: "lib/icons/email.png"),
+          TextField(
+            controller: emailController,
+            textAlign: TextAlign.start,
+            textInputAction: TextInputAction.none,
+            obscureText: false,
+            keyboardType: TextInputType.emailAddress,
+            textAlignVertical: TextAlignVertical.center,
+            decoration: InputDecoration(
+                focusColor: Colors.black26,
+                fillColor: Color.fromARGB(255, 247, 247, 247),
+                filled: true,
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                  ),
+                  child: Container(
+                    child: Image.asset("lib/icons/person.png"),
+                  ),
+                ),
+                prefixIconColor: const Color.fromRGBO(121, 171, 243, 1),
+                label: Text(
+                  "Enter your email",
+                  style: GoogleFonts.poppins(fontSize: 15.sp),
+                ),
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(30),
+                )),
+          ),
           const SizedBox(
-            height: 5,
+            height: 15,
           ),
           //Text field Password
-          Auth_text_field(
-              text: "Enter your password", icon: "lib/icons/lock.png"),
+          TextField(
+            controller: passwordController,
+            textAlign: TextAlign.start,
+            textInputAction: TextInputAction.none,
+            obscureText: false,
+            keyboardType: TextInputType.emailAddress,
+            textAlignVertical: TextAlignVertical.center,
+            decoration: InputDecoration(
+                focusColor: Colors.black26,
+                fillColor: Color.fromARGB(255, 247, 247, 247),
+                filled: true,
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                  ),
+                  child: Container(
+                    child: Image.asset("lib/icons/lock.png"),
+                  ),
+                ),
+                prefixIconColor: const Color.fromRGBO(121, 171, 243, 1),
+                label: Text("Enter Your Password"),
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(30),
+                )),
+          ),
           Row(mainAxisAlignment: MainAxisAlignment.end, children: [
             GestureDetector(
               onTap: () {
@@ -70,7 +130,7 @@ class login extends StatelessWidget {
                 "Forgot your password?",
                 style: GoogleFonts.poppins(
                     fontSize: 15.sp,
-                    color: const Color.fromARGB(255, 3, 190, 150),
+                    color: const Color.fromRGBO(121, 171, 243, 1),
                     fontWeight: FontWeight.w500),
               ),
             )
@@ -82,22 +142,54 @@ class login extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.05,
             width: MediaQuery.of(context).size.width * 0.9,
             child: ElevatedButton(
-              onPressed: () {
-                // Perform verification or other actions here
+              onPressed:() {
+                FirebaseManager.login(
+                  emailController.text,
+                  passwordController.text,
+                      () {
+                    showDialog(
+                      context: context,
+                      builder: (context) => const AlertDialog(
+                        title: Center(child: CircularProgressIndicator()),
+                        backgroundColor: Colors.transparent,
+                      ),
+                    );
+                  },
+                      ()  {
+                    Navigator.pop(context);
+                    //await userProvider.initUser();
+                    Navigator.push(
+                        context,
+                        PageTransition(
+                            type: PageTransitionType.bottomToTop,
+                            child: Homepage()));
+                  },
+                      (message) {
+                    Navigator.pop(context);
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) => AlertDialog(
+                        title: const Text("Something went Wrong"),
+                        content: Text(message),
+                        actions: [
+                          ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text("Ok"))
+                        ],
+                      ),
+                    );
+                  },
+                );
               },
               style: ElevatedButton.styleFrom(
-                primary: Color.fromARGB(255, 3, 190, 150),
+                backgroundColor: Color.fromRGBO(121, 171, 243, 1),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.pushReplacement(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.fade, child: Homepage()));
-                },
                 child: Text(
                   "Login",
                   textAlign: TextAlign.center,
@@ -110,7 +202,7 @@ class login extends StatelessWidget {
                 ),
               ),
             ),
-          ),
+
           SizedBox(
             height: 30,
           ),
@@ -134,7 +226,7 @@ class login extends StatelessWidget {
                   "Sign Up",
                   style: GoogleFonts.poppins(
                     fontSize: 15.sp,
-                    color: const Color.fromARGB(255, 3, 190, 150),
+                    color: const Color.fromRGBO(121, 171, 243, 1),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -165,19 +257,40 @@ class login extends StatelessWidget {
           const SizedBox(
             height: 30,
           ),
-          auth_social_logins(
-              logo: "images/google.png", text: "Sign in with Google"),
+          InkWell(
+            onTap:signInWithGoogle,
+            child: auth_social_logins(
+                logo: "images/google.png", text: "Sign in with Google"),
+          ),
           const SizedBox(
             height: 20,
           ),
-          auth_social_logins(logo: "images/apple.png", text: "Sign in Apple"),
+
           const SizedBox(
             height: 20,
           ),
-          auth_social_logins(
-              logo: "images/facebook.png", text: "Sign in facebook")
         ]),
       ),
     );
   }
+}
+signInWithGoogle() async {
+  final GoogleSignIn googleSignIn = GoogleSignIn(
+    clientId: "300842765303-9o80dcq91ite7mjfos0ger1ij3tgomu8.apps.googleusercontent.com",
+  );
+
+  final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+
+  if (googleUser == null) {
+    return null;
+  }
+
+  final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+  final AuthCredential credential = GoogleAuthProvider.credential(
+    accessToken: googleAuth.accessToken,
+    idToken: googleAuth.idToken,
+  );
+
+  return await FirebaseAuth.instance.signInWithCredential(credential);
 }

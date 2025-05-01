@@ -16,23 +16,24 @@ class on_board1 extends StatelessWidget {
           height: 40,
         ),
         Container(
-          height: MediaQuery.of(context).size.height * 0.6,
-          width: MediaQuery.of(context).size.width * 0.8,
+          height: MediaQuery.of(context).size.height * 0.4,
+          width: MediaQuery.of(context).size.width * 0.6,
           decoration: BoxDecoration(
               image: DecorationImage(
                   alignment: Alignment.bottomCenter,
                   image: AssetImage(
-                    "images/doctor1.png",
+                    "images/delivery.png",
                   ),
                   filterQuality: FilterQuality.high)),
         ),
+        SizedBox(height: 20,),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.2,
+                height: MediaQuery.of(context).size.height * 0.3,
                 width: MediaQuery.of(context).size.width * 0.8,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
@@ -46,13 +47,29 @@ class on_board1 extends StatelessWidget {
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(25),
-                  child: Text(
-                    "Consult only with a doctor\nyou trust",
-                    style: GoogleFonts.inter(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.bold,
-                        color: const Color.fromARGB(255, 37, 37, 37)),
+                  padding: const EdgeInsets.all(15),
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Text(
+                          "Quick & easy ordering process",
+                          style: GoogleFonts.inter(
+                              fontSize: 19.sp,
+                              fontWeight: FontWeight.bold,
+                              color: const Color.fromARGB(255, 37, 37, 37)),
+                        ),
+                        SizedBox(height: 10,),
+                        Center(
+                          child: Text(
+                            "Now you could order your medicine from nesrest pharmacy from you that provide all your needs",
+                            style: GoogleFonts.inter(
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.bold,
+                                color: const Color.fromARGB(255, 102, 100, 100)),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               )

@@ -1,31 +1,40 @@
+import 'package:firebase_core/firebase_core.dart' show Firebase;
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart' show PlatformDispatcher;
 import 'package:flutter/material.dart';
-import 'package:medical/Screens/Login-Signup/Profile_screen.dart';
-import 'package:medical/Screens/Views/Dashboard_screen.dart';
-import 'package:medical/Screens/Views/Homepage.dart';
-import 'package:medical/Screens/Views/Screen1.dart';
-import 'package:medical/Screens/Views/appointment.dart';
-import 'package:medical/Screens/Views/chat_screen.dart';
-import 'package:medical/Screens/Views/doctor_search.dart';
-import 'package:medical/Screens/Widgets/TabbarPages/message_tab_all.dart';
-import 'package:medical/Screens/Widgets/TabbarPages/tab1.dart';
-import 'package:medical/Screens/Widgets/article.dart';
-import 'package:medical/Screens/Login-Signup/forgot_pass.dart';
-import 'package:medical/Screens/Login-Signup/login.dart';
-import 'package:medical/Screens/Login-Signup/login_signup.dart';
-import 'package:medical/Screens/On_Board/on_boarding.dart';
 import 'package:medical/Screens/Login-Signup/register.dart';
-import 'package:medical/Screens/Login-Signup/verification_code.dart';
-import 'package:medical/Screens/Views/articlePage.dart';
-import 'package:medical/Screens/Widgets/doctorList.dart';
-import 'package:medical/Screens/Login-Signup/shedule_screen.dart';
-import 'package:medical/Screens/Views/message_Screen.dart';
+import 'package:medical/Screens/homepage/Homepage.dart';
+import 'package:medical/firebase/firebase_options.dart' show DefaultFirebaseOptions;
+import 'package:medical/providers/user_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:medical/Screens/Views/find_doctor.dart';
-import 'package:medical/Screens/Views/doctor_details_screen.dart';
 
-void main() {
-  runApp(const Medics());
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  // Non-async exceptions
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
+  };
+  // Async exceptions
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack);
+    return true;
+  };
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => UserProvider()),
+      ],
+      child: Medics(),
+    ),
+  );
 }
+
 
 class Medics extends StatelessWidget {
   const Medics({super.key});
@@ -33,9 +42,13 @@ class Medics extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveSizer(builder: (context, orientation, screenType) {
-      return const MaterialApp(
+      return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Screen1(),
+        theme: ThemeData(
+          useMaterial3: true ,
+            // fontFamily: GoogleFonts.inter().fontFamily,
+        ),
+        home: Homepage(),
       );
     });
   }
