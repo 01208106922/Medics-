@@ -2,6 +2,8 @@
 class Assets {
   Assets._();
 
+  static const String blocCubit = 'lib/bloc/cubit.dart';
+  static const String blocState = 'lib/bloc/state.dart';
   static const String cartpageAddresspage = 'lib/Screens/cartpage/addresspage.dart';
   static const String cartpageCart = 'lib/Screens/cartpage/cart.dart';
   static const String cartpageCompletedPage = 'lib/Screens/cartpage/completed_page.dart';
@@ -13,6 +15,7 @@ class Assets {
   static const String firebaseFirebaseOptions = 'lib/firebase/firebase_options.dart';
   static const String generatedAssets = 'lib/generated/assets.dart';
   static const String homepageArticle = 'lib/Screens/homepage/article.dart';
+  static const String homepageArticle1 = 'lib/Screens/homepage/article1.dart';
   static const String homepageArticlePage = 'lib/Screens/homepage/articlePage.dart';
   static const String homepageHome = 'lib/Screens/homepage/home.dart';
   static const String homepageHomepage = 'lib/Screens/homepage/Homepage.dart';
@@ -97,13 +100,18 @@ class Assets {
   static const String medicsImagesCapsules2 = 'images/capsules2.png';
   static const String medicsImagesFacebook = 'images/facebook.png';
   static const String medicsImagesGoogle = 'images/google.png';
+  static const String modelDetailsModel = 'lib/model/details_model.dart';
   static const String modelUserModel = 'lib/model/user_model.dart';
   static const String onBoardOnBoard1 = 'lib/Screens/On_Board/on_board1.dart';
   static const String onBoardOnBoard2 = 'lib/Screens/On_Board/on_board2.dart';
   static const String onBoardOnBoard3 = 'lib/Screens/On_Board/on_board3.dart';
   static const String onBoardOnBoard4 = 'lib/Screens/On_Board/on_board4.dart';
   static const String onBoardOnBoarding = 'lib/Screens/On_Board/on_boarding.dart';
+  static const String profileAboutUs = 'lib/Screens/profile/about_us.dart';
   static const String profileEmailTab = 'lib/Screens/profile/email_tab.dart';
+  static const String profileFaqs = 'lib/Screens/profile/faqs.dart';
+  static const String profileHelpAndSupport = 'lib/Screens/profile/help_and_support.dart';
+  static const String profileMySaved = 'lib/Screens/profile/my_saved.dart';
   static const String profileProfileList = 'lib/Screens/profile/profile_list.dart';
   static const String profileProfileScreen = 'lib/Screens/profile/Profile_screen.dart';
   static const String providersUserProvider = 'lib/providers/user_provider.dart';

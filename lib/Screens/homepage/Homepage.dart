@@ -25,8 +25,8 @@ class _HomepageState extends State<Homepage> {
   List<Widget> pages = [
     Dashboard(), // You can replace this with your actual pages
     message_tab_all(),
-    PharmacyPage(),
-    Profile_screen()
+    CartPage(),
+    ProfileScreen()
   ];
 
   @override

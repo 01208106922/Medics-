@@ -234,14 +234,14 @@ class Dashboard extends StatelessWidget {
             height: 10,
           ),
           //Article banner here import from widget>article
-          article(
+          article1(
               image: "images/article1.png",
               dateText: "Jun 10, 2021 ",
               duration: "5min read",
               mainText:
                   "The 25 Healthiest Fruits You Can Eat,\nAccording to a Nutritionist"),
-          article(
-              image: "images/article1.png",
+          article2(
+              image: "images/article2.jpg",
               dateText: "Jun 10, 2021 ",
               duration: "5min read",
               mainText:

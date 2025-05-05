@@ -550,27 +550,33 @@ class articlePage extends StatelessWidget {
             height: 20,
           ),
           //Import this from widget
-          article(
+          article1(
               image: "images/article1.png",
               dateText: "2 min Read",
               duration: "2 min read",
               mainText: "Main text"),
-          article(
-              image: "images/article1.png",
+          article2(
+              image: "images/article2.jpg",
               dateText: "2 min Read",
               duration: "2 min read",
               mainText: "Main text"),
-          article(
-              image: "images/article1.png",
+          article3(
+              image: "images/article3.jpg",
               dateText: "2 min Read",
               duration: "2 min read",
               mainText: "Main text"),
-          article(
-              image: "images/article1.png",
+          article4(
+              image: "images/article4.jpg",
               dateText: "2 min Read",
               duration: "2 min read",
-              mainText: "Main text"),article(
-              image: "images/article1.png",
+              mainText: "Main text"),
+          article5(
+              image: "images/article5.jpg",
+              dateText: "2 min Read",
+              duration: "2 min read",
+              mainText: "Main text"),
+          article6(
+              image: "images/article6.jpg",
               dateText: "2 min Read",
               duration: "2 min read",
               mainText: "Main text"),

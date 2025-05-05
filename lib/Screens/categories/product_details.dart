@@ -1,14 +1,26 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:medical/Screens/categories/products.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:medical/Screens/categories/products.dart';
 
 class ProductDetails extends StatefulWidget {
   final String image;
+  final String name;
+  final String description;
+  final String stock;
 
-  ProductDetails({super.key,required this.image});
+  const ProductDetails({
+    super.key,
+    required this.image,
+    required this.name,
+    required this.description,
+    required this.stock,
+  });
+
   @override
   State<ProductDetails> createState() => _ProductDetailsState();
 }
@@ -16,28 +28,29 @@ class ProductDetails extends StatefulWidget {
 class _ProductDetailsState extends State<ProductDetails> {
   double num = 1;
   double price = 100;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // Leading icon for navigation
         leading: GestureDetector(
           onTap: () {
             Navigator.push(
                 context,
                 PageTransition(
-                    type: PageTransitionType.fade, child: chat_screen(title: "", color: Color(0XFFFFFFFF))));
+                    type: PageTransitionType.fade,
+                    child: Products(title: "", color: const Color(0XFFFFFFFF))));
           },
           child: Container(
             height: 10,
             width: 10,
             decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("lib/icons/back1.png"),
-                )),
+              image: DecorationImage(
+                image: AssetImage("lib/icons/back1.png"),
+              ),
+            ),
           ),
         ),
-        // Title of the chat screen
         title: Text(
           "Product Details",
           style: GoogleFonts.poppins(
@@ -56,90 +69,98 @@ class _ProductDetailsState extends State<ProductDetails> {
             Padding(
               padding: const EdgeInsets.all(12.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset(
+                  Image.network(
                     widget.image,
                     width: 255,
                     height: 255,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) =>
+                    const Icon(FontAwesomeIcons.image),
                   ),
                   Text(
-                    "Malinda cleanser Gel",
-                    style: TextStyle(
+                    widget.name,
+                    style: const TextStyle(
                         color: Color(0xff000000),
                         fontSize: 24,
                         fontWeight: FontWeight.w400),
                   ),
-                  SizedBox(height: 4,),
+                  const SizedBox(height: 4),
                   Text(
-                    "Deeply and gently cleanses the skin, purifies it from impurities, dirt, and dead skin cells. Removes makeup residues and waterproof products like sunscreen. Prevents the formation of whiteheads and blackheads. Prevents clogged pores, thereby reducing the appearance of acne.",
+                    widget.description,
                     textAlign: TextAlign.start,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Color(0xff000000),
                         fontSize: 16,
                         fontWeight: FontWeight.w300),
                   ),
-                  SizedBox(
-                    height: 12,
-                  ),
+                  const SizedBox(height: 12),
                   Row(
                     children: [
                       IconButton(
                         onPressed: () {
                           setState(() {
-                            if (num >1 )
-                            {num--;
-                            price= price-100;
-                            };
+                            if (num > 1) {
+                              num--;
+                              price = price - 100;
+                            }
                           });
                         },
-                        icon: Icon(FontAwesomeIcons.minus),
+                        icon: const Icon(FontAwesomeIcons.minus),
                       ),
-                      SizedBox(
-                        width: 12,
-                      ),
+                      const SizedBox(width: 12),
                       Text(
                         "$num",
-                        style: TextStyle(
+                        style: const TextStyle(
                             color: Color(0xff465C67),
                             fontSize: 25,
                             fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(
-                        width: 12,
-                      ),
+                      const SizedBox(width: 12),
                       IconButton(
                         onPressed: () {
                           setState(() {
                             num++;
-                            price= num*100;
+                            price = num * 100;
                           });
                         },
-                        icon: Icon(FontAwesomeIcons.plus),
+                        icon: const Icon(FontAwesomeIcons.plus),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Text(
-                        "$price",
-                        style:
-                        TextStyle(fontWeight: FontWeight.w800, fontSize: 24),
-                      )
+                        "$price EGP",
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w800, fontSize: 24),
+                      ),
                     ],
                   ),
-                  SizedBox(
-                    height: 6,
-                  ),
-                  SizedBox(height: 24,),
+                  const SizedBox(height: 24),
                   InkWell(
-                    onTap: () {
+                    onTap: () async {
+                      SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                      List<String>? existingList =
+                      prefs.getStringList('saved_products');
+
+                      Map<String, dynamic> product = {
+                        "name": widget.name,
+                        "image": widget.image,
+                        "price": price,
+                      };
+
+                      List<String> updatedList = existingList ?? [];
+                      updatedList.add(json.encode(product));
+
+                      await prefs.setStringList('saved_products', updatedList);
+
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text(
+                          content: const Text(
                             'Product added to cart successfully!',
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           backgroundColor: Colors.green,
-                          duration: Duration(seconds: 2),
+                          duration: const Duration(seconds: 2),
                           behavior: SnackBarBehavior.floating,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -147,22 +168,21 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ),
                       );
                     },
-
                     child: Container(
                       alignment: Alignment.center,
                       width: double.infinity,
                       height: 50,
                       decoration: BoxDecoration(
-                          color: Color(0xffF9D03F),
-                          borderRadius: BorderRadius.circular(12)
+                        color: const Color(0xffF9D03F),
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Text("Add to cart",
+                      child: const Text(
+                        "Add to cart",
                         style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w800
-                        ),),
+                            fontSize: 18, fontWeight: FontWeight.w800),
+                      ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

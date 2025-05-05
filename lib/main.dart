@@ -1,25 +1,30 @@
-import 'package:firebase_core/firebase_core.dart' show Firebase;
+import 'dart:ui';
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/foundation.dart' show PlatformDispatcher;
 import 'package:flutter/material.dart';
-import 'package:medical/Screens/Login-Signup/register.dart';
-import 'package:medical/Screens/homepage/Homepage.dart';
-import 'package:medical/firebase/firebase_options.dart' show DefaultFirebaseOptions;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:medical/bloc/cubit.dart' show HomeCubit;
 import 'package:medical/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import 'Screens/Views/Screen1.dart';
+import 'Screens/homepage/Homepage.dart';
+import 'firebase/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  // Non-async exceptions
+
+  // Handle Flutter framework errors
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterError(errorDetails);
   };
-  // Async exceptions
+
+  // Handle all other errors
   PlatformDispatcher.instance.onError = (error, stack) {
     FirebaseCrashlytics.instance.recordError(error, stack);
     return true;
@@ -29,27 +34,30 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => UserProvider()),
+        BlocProvider(create: (context) => HomeCubit()),
       ],
-      child: Medics(),
+      child: const MedicsApp(),
     ),
   );
 }
 
-
-class Medics extends StatelessWidget {
-  const Medics({super.key});
+class MedicsApp extends StatelessWidget {
+  const MedicsApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ResponsiveSizer(builder: (context, orientation, screenType) {
-      return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          useMaterial3: true ,
-            // fontFamily: GoogleFonts.inter().fontFamily,
-        ),
-        home: Homepage(),
-      );
-    });
+    return ResponsiveSizer(
+      builder: (context, orientation, screenType) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            useMaterial3: true,
+            scaffoldBackgroundColor: Colors.white,
+            fontFamily: 'Poppins',
+          ),
+          home: Homepage(),
+        );
+      },
+    );
   }
 }

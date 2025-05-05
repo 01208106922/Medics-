@@ -1,43 +1,134 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'addresspage.dart';
-// import 'address_page.dart';
 
-class PharmacyPage extends StatefulWidget {
+class CartPage extends StatefulWidget {
   @override
-  _PharmacyPageState createState() => _PharmacyPageState();
+  _CartPageState createState() => _CartPageState();
 }
 
-class _PharmacyPageState extends State<PharmacyPage> {
-  List<Map<String, dynamic>> products = [
-    {
-      'name': 'Malinda Gel',
-      'price': 225.0,
-      'image': 'images/malinda.jpg',
-      'quantity': 1,
-      'isFavorite': false,
-    },
-    {
-      'name': 'Malinda Moisturizer',
-      'price': 225.0,
-      'image': 'images/malinda.jpg',
-      'quantity': 1,
-      'isFavorite': false,
-    },
-    {
-      'name': 'Lorem',
-      'price': 225.0,
-      'image': 'images/malinda.jpg',
-      'quantity': 1,
-      'isFavorite': false,
-    },
-  ];
+class _CartPageState extends State<CartPage> {
+  List<Map<String, dynamic>> savedItems = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedProducts();
+  }
+
+  Future<void> _loadSavedProducts() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String>? savedList = prefs.getStringList('saved_products');
+    if (savedList != null) {
+      setState(() {
+        savedItems = savedList
+            .map((item) => json.decode(item))
+            .cast<Map<String, dynamic>>()
+            .map((item) {
+          item['quantity'] ??= 1;
+          return item;
+        }).toList();
+      });
+    }
+  }
+
+  Future<void> _saveUpdatedList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> updatedList =
+    savedItems.map((item) => json.encode(item)).toList();
+    await prefs.setStringList('saved_products', updatedList);
+  }
+
+  void _removeItem(int index) async {
+    setState(() {
+      savedItems.removeAt(index);
+    });
+    await _saveUpdatedList();
+  }
+
+  void _changeQuantity(int index, int change) async {
+    setState(() {
+      savedItems[index]['quantity'] += change;
+      if (savedItems[index]['quantity'] < 1) {
+        savedItems[index]['quantity'] = 1;
+      }
+    });
+    await _saveUpdatedList();
+  }
 
   double getTotal() {
-    return products.fold(
-      0,
-          (sum, item) => sum + (item['price'] * item['quantity']),
+    return savedItems.fold(0.0, (sum, item) {
+      final price = item['price'];
+      final quantity = item['quantity'] ?? 1;
+
+      double parsedPrice;
+      if (price is num) {
+        parsedPrice = price.toDouble();
+      } else if (price is String) {
+        parsedPrice = double.tryParse(price) ?? 0.0;
+      } else {
+        parsedPrice = 0.0;
+      }
+
+      return sum + (parsedPrice * quantity);
+    });
+  }
+
+  Widget productCard(Map<String, dynamic> product, int index) {
+    return Card(
+      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Row(
+          children: [
+            Image.network(
+              product['image'],
+              width: 50,
+              height: 50,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) =>
+              const Icon(Icons.broken_image),
+            ),
+            SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(product['name'], style: TextStyle(fontSize: 16)),
+                  SizedBox(height: 4),
+                  Text("${product['price']} EGP",
+                      style: TextStyle(color: Colors.grey[600])),
+                ],
+              ),
+            ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  onPressed: () => _removeItem(index),
+                  icon: Icon(FontAwesomeIcons.trash, color: Colors.red),
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: Icon(FontAwesomeIcons.plus, size: 12),
+                      onPressed: () => _changeQuantity(index, 1),
+                    ),
+                    Text("${product['quantity']}"),
+                    IconButton(
+                      icon: Icon(FontAwesomeIcons.minus, size: 12),
+                      onPressed: () => _changeQuantity(index, -1),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -48,27 +139,22 @@ class _PharmacyPageState extends State<PharmacyPage> {
       body: SafeArea(
         child: Column(
           children: [
-            // Top bar
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Icon(FontAwesomeIcons.arrowLeft, color: Colors.black54),
-                  Icon(FontAwesomeIcons.bell , color: Colors.black54),
                 ],
               ),
             ),
-
-            // Product List
             Expanded(
-              child: ListView(
-                children:
-                products.map((product) => productCard(product)).toList(),
+              child: ListView.builder(
+                itemCount: savedItems.length,
+                itemBuilder: (context, index) =>
+                    productCard(savedItems[index], index),
               ),
             ),
-
-            // Total & Checkout Button
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 24),
               decoration: BoxDecoration(
@@ -83,7 +169,7 @@ class _PharmacyPageState extends State<PharmacyPage> {
                     children: [
                       Text("Total", style: TextStyle(color: Colors.white)),
                       SizedBox(height: 4),
-                      Text("\$${getTotal().toStringAsFixed(2)}",
+                      Text("${getTotal().toStringAsFixed(2)} EGP",
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 20,
@@ -92,9 +178,12 @@ class _PharmacyPageState extends State<PharmacyPage> {
                   ),
                   ElevatedButton(
                     onPressed: () {
+                      double total = getTotal();
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => AddressPage()),
+                        MaterialPageRoute(
+                          builder: (context) => AddressPage(price: total),
+                        ),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -118,77 +207,6 @@ class _PharmacyPageState extends State<PharmacyPage> {
             )
           ],
         ),
-      ),
-    );
-  }
-
-  Widget productCard(Map<String, dynamic> product) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      padding: EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Row(
-        children: [
-          Image.asset(product['image'], height: 100, width: 100),
-          SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(product['name'],
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                SizedBox(height: 4),
-                Text("\$${product['price']}"),
-                SizedBox(height: 4),
-                Text("Size: US 7", style: TextStyle(color: Colors.grey)),
-              ],
-            ),
-          ),
-          Column(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    product['isFavorite'] = !product['isFavorite'];
-                  });
-                },
-                child: Icon(
-                  product['isFavorite']
-                      ? FontAwesomeIcons.heart
-                      : FontAwesomeIcons.heart,
-                  color: product['isFavorite'] ? Colors.red : Colors.grey,
-                ),
-              ),
-              SizedBox(height: 8),
-              Row(
-                children: [
-                  IconButton(
-                    icon: Icon(FontAwesomeIcons.plus ,size: 12,),
-                    onPressed: () {
-                      setState(() {
-                        if (product['quantity'] > 0) {
-                          product['quantity'] += 1;
-                        }
-                      });
-                    },
-                  ),
-                  Text("${product['quantity']}"),
-                  IconButton(
-                    icon: Icon(FontAwesomeIcons.minus , size:12 ),
-                    onPressed: () {
-                      setState(() {
-                        product['quantity'] -= 1;
-                      });
-                    },
-                  ),
-                ],
-              )
-            ],
-          )
-        ],
       ),
     );
   }

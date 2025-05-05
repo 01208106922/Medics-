@@ -3,14 +3,26 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'completed_page.dart';
 import 'package:flutter/services.dart';
 
-class PaymentPage extends StatelessWidget {
+class PaymentPage extends StatefulWidget {
+  final double total;
+  const PaymentPage({super.key, required this.total});
+
+  @override
+  State<PaymentPage> createState() => _PaymentPageState();
+}
+
+class _PaymentPageState extends State<PaymentPage> {
   final TextEditingController _cardController = TextEditingController();
+  String? selectedPayment; // 'cash' or 'paypal'
 
   @override
   Widget build(BuildContext context) {
-    double price = 125.00;
+    double price = widget.total;
     double fees = 0.00;
     double total = price + fees;
+
+    bool isCardValid =
+        selectedPayment == 'paypal' && _cardController.text.trim().isNotEmpty;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -33,7 +45,6 @@ class PaymentPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Stepper
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -46,15 +57,47 @@ class PaymentPage extends StatelessWidget {
               ),
               SizedBox(height: 24),
 
-              // Pay on Cash
-              _paymentOption(FontAwesomeIcons.moneyCheck, "Pay on cash"),
+// Pay on cash
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    if (selectedPayment == 'cash') {
+                      selectedPayment = null;
+                    } else {
+                      selectedPayment = 'cash';
+                      _cardController.clear();
+                    }
+                  });
+                },
+                child: _paymentOption(
+                  FontAwesomeIcons.moneyBill,
+                  "Pay on cash",
+                  isSelected: selectedPayment == 'cash',
+                ),
+              ),
+
               _dividerWithText("OR"),
 
-              // PayPal
-              _paymentOption(FontAwesomeIcons.wallet, "PayPal"),
-              _dividerWithText("OR"),
+// PayPal
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    if (selectedPayment == 'paypal') {
+                      selectedPayment = null;
+                      _cardController.clear();
+                    } else {
+                      selectedPayment = 'paypal';
+                    }
+                  });
+                },
+                child: _paymentOption(
+                  FontAwesomeIcons.wallet,
+                  "PayPal",
+                  isSelected: selectedPayment == 'paypal',
+                ),
+              ),
 
-              // Card Number Input (as password)
+              SizedBox(height: 24),
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
@@ -66,10 +109,12 @@ class PaymentPage extends StatelessWidget {
               TextField(
                 controller: _cardController,
                 obscureText: true,
+                enabled: selectedPayment == 'paypal',
                 keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                ],
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                onChanged: (_) {
+                  setState(() {});
+                },
                 decoration: InputDecoration(
                   hintText: "Enter card number",
                   border: OutlineInputBorder(
@@ -80,32 +125,35 @@ class PaymentPage extends StatelessWidget {
               ),
               SizedBox(height: 24),
 
-              // Price Details
               _priceRow("Price", "\$${price.toStringAsFixed(2)}"),
-              _priceRow("Fees", "\$${fees.toStringAsFixed(2)}"),
+              _priceRow("Delivery Fees", "\$5${fees.toStringAsFixed(2)}"),
               Divider(),
               _priceRow("Total Price", "\$${total.toStringAsFixed(2)}",
                   isBold: true),
               SizedBox(height: 24),
 
-              // Confirm Button
               ElevatedButton(
-                onPressed: () {
+                onPressed: (selectedPayment == 'cash') || isCardValid
+                    ? () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (_) => CompletedPage()),
                   );
-                },
+                }
+                    : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.amber,
                   padding: EdgeInsets.symmetric(vertical: 14, horizontal: 50),
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                 ),
                 child: Text(
                   "Confirm And Track Order",
                   style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.bold),
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               )
             ],
@@ -115,12 +163,16 @@ class PaymentPage extends StatelessWidget {
     );
   }
 
-  Widget _paymentOption(IconData icon, String title) {
+  Widget _paymentOption(IconData icon, String title,
+      {bool isSelected = false}) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8),
       padding: EdgeInsets.symmetric(vertical: 16),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
+        color: isSelected ? Colors.blue.shade100 : Colors.white,
+        border: Border.all(
+          color: isSelected ? Colors.blue : Colors.grey.shade300,
+        ),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
