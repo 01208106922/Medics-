@@ -25,7 +25,7 @@ class article1 extends StatelessWidget {
         onTap: (){
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const Article1()),
+            MaterialPageRoute(builder: (context) =>  Article1(title: mainText,)),
           );
         },
         child: Container(
@@ -121,7 +121,7 @@ class article2 extends StatelessWidget {
         onTap: (){
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const Article1()),
+            MaterialPageRoute(builder: (context) =>  Article1(title: mainText,)),
           );
         },
         child: Container(
@@ -217,7 +217,7 @@ class article3 extends StatelessWidget {
         onTap: (){
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const Article1()),
+            MaterialPageRoute(builder: (context) =>  Article1(title: mainText,)),
           );
         },
         child: Container(
@@ -313,7 +313,7 @@ class article4 extends StatelessWidget {
         onTap: (){
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const Article1()),
+            MaterialPageRoute(builder: (context) =>  Article1(title: mainText,)),
           );
         },
         child: Container(
@@ -409,7 +409,7 @@ class article5 extends StatelessWidget {
         onTap: (){
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const Article1()),
+            MaterialPageRoute(builder: (context) =>  Article1(title: mainText,)),
           );
         },
         child: Container(
@@ -505,7 +505,7 @@ class article6 extends StatelessWidget {
         onTap: (){
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const Article1()),
+            MaterialPageRoute(builder: (context) =>  Article1(title: mainText,)),
           );
         },
         child: Container(

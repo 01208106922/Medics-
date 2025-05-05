@@ -13,7 +13,6 @@ class Screen1 extends StatefulWidget {
 class _Screen1State extends State<Screen1> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     Timer(Duration(seconds: 3), () {

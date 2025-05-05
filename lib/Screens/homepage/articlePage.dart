@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:medical/Screens/homepage/Homepage.dart';
 import 'package:medical/Screens/homepage/article.dart';
-import 'package:medical/Screens/Widgets/doctorList.dart';
-import 'package:medical/Screens/Widgets/listIcons.dart';
-import 'package:medical/Screens/Login-Signup/login_signup.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -551,35 +548,35 @@ class articlePage extends StatelessWidget {
           ),
           //Import this from widget
           article1(
-              image: "images/article1.png",
+              image: "images/article1.jpg",
               dateText: "2 min Read",
               duration: "2 min read",
-              mainText: "Main text"),
+              mainText: "Boost Your Defenses"),
           article2(
               image: "images/article2.jpg",
               dateText: "2 min Read",
               duration: "2 min read",
-              mainText: "Main text"),
+              mainText: "Fortify Your Health"),
           article3(
               image: "images/article3.jpg",
               dateText: "2 min Read",
               duration: "2 min read",
-              mainText: "Main text"),
+              mainText: "Power Up Defenses"),
           article4(
               image: "images/article4.jpg",
               dateText: "2 min Read",
               duration: "2 min read",
-              mainText: "Main text"),
+              mainText: "Heart-Healthy Habits"),
           article5(
               image: "images/article5.jpg",
               dateText: "2 min Read",
               duration: "2 min read",
-              mainText: "Main text"),
+              mainText: "Stress Management Strategies"),
           article6(
               image: "images/article6.jpg",
               dateText: "2 min Read",
               duration: "2 min read",
-              mainText: "Main text"),
+              mainText: "The Power of Probiotics"),
         ]),
       ),
     );

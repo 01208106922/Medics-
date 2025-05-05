@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Article1 extends StatelessWidget {
-  const Article1({Key? key}) : super(key: key);
+  final String title;
+  const Article1({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +11,7 @@ class Article1 extends StatelessWidget {
       backgroundColor: Colors.lightBlue[50],
       appBar: AppBar(
         backgroundColor: Colors.lightBlue[300],
-        title: const Text('Boost Your Defenses'),
+        title:  Text(title),
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -33,9 +34,9 @@ class Article1 extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children:  [
                   Text(
-                    "Boost Your Defenses",
+                    title,
                     style: TextStyle(
                         fontSize: 16,
                         height: 1.6 ,

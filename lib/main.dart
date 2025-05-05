@@ -55,7 +55,7 @@ class MedicsApp extends StatelessWidget {
             scaffoldBackgroundColor: Colors.white,
             fontFamily: 'Poppins',
           ),
-          home: Homepage(),
+          home: Screen1(),
         );
       },
     );

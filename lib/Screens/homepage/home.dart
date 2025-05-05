@@ -235,17 +235,17 @@ class Dashboard extends StatelessWidget {
           ),
           //Article banner here import from widget>article
           article1(
-              image: "images/article1.png",
+              image: "images/article1.jpg",
               dateText: "Jun 10, 2021 ",
-              duration: "5min read",
+              duration: "Boost Your Defenses",
               mainText:
-                  "The 25 Healthiest Fruits You Can Eat,\nAccording to a Nutritionist"),
+                  "Boost Your Defenses"),
           article2(
               image: "images/article2.jpg",
               dateText: "Jun 10, 2021 ",
-              duration: "5min read",
+              duration: "Fortify Your Health",
               mainText:
-              "The 25 Healthiest Fruits You Can Eat,\nAccording to a Nutritionist"),
+              "Fortify Your Health"),
         ]),
       ),
     );
