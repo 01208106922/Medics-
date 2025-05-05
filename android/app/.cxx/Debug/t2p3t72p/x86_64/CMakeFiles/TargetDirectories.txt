@@ -1,0 +1,2 @@
+D:/pharmace/Medics/android/app/.cxx/Debug/t2p3t72p/x86_64/CMakeFiles/edit_cache.dir
+D:/pharmace/Medics/android/app/.cxx/Debug/t2p3t72p/x86_64/CMakeFiles/rebuild_cache.dir

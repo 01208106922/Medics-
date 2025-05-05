@@ -96,6 +96,7 @@ class _MySavedState extends State<MySaved> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
+
                   Text(
                     product['name']?.toString().trim() ?? 'No Name',
                     style: const TextStyle(fontWeight: FontWeight.bold),
